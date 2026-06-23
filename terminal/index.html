@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Walter Zoff — terminal</title>
+<meta name="description" content="Interactive terminal — ask anything about Walter Zoff. Client-side retrieval over his profile, no server." />
+<meta name="theme-color" content="#0E0B1E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E0B1E'/%3E%3Cg fill='%23D946EF'%3E%3Crect x='7' y='17' width='3.6' height='8' rx='1'/%3E%3Crect x='14.2' y='12' width='3.6' height='13' rx='1' fill='%2322D3EE'/%3E%3Crect x='21.4' y='8' width='3.6' height='17' rx='1'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ground:#0E0B1E; --surface:#15112C; --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.16);
+    --text:#ECEAF6; --muted:#A79FC6; --faint:#6E6790;
+    --accent:#D946EF; --cyan:#22D3EE; --green:#34D399; --violet:#A855F7; --amber:#FBBF24;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace; --display:'Space Grotesk',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--ground); color:var(--text); font-family:var(--mono); font-size:14.5px; line-height:1.65; overflow:hidden}
+  body::after{content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(circle at 80% -10%,rgba(217,70,239,.13),transparent 55%); }
+  .shell{position:relative; z-index:1; height:100%; display:flex; flex-direction:column; max-width:1000px; margin:0 auto; padding:18px}
+  .bar{display:flex; align-items:center; gap:9px; padding:12px 16px; background:var(--surface); border:1px solid var(--line-2); border-bottom:0; border-radius:14px 14px 0 0}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
+  .bar .ttl{margin-left:8px; color:var(--faint); font-size:12.5px}
+  .bar .home{margin-left:auto; color:var(--muted); text-decoration:none; font-size:12.5px; border:1px solid var(--line-2); padding:5px 11px; border-radius:8px; transition:.16s}
+  .bar .home:hover{color:var(--text); border-color:var(--accent)}
+  .screen{flex:1; min-height:0; overflow-y:auto; background:linear-gradient(180deg,#120f28,#0e0b22);
+    border:1px solid var(--line-2); border-top:0; border-radius:0 0 14px 14px; padding:20px 20px 8px; scrollbar-width:thin; scrollbar-color:var(--line-2) transparent}
+  .screen::-webkit-scrollbar{width:9px}.screen::-webkit-scrollbar-thumb{background:var(--line-2); border-radius:6px}
+  .row{margin-bottom:9px; white-space:pre-wrap; word-break:break-word}
+  .cmd-echo{color:var(--text)} .cmd-echo .pr{color:var(--accent)}
+  .out{color:var(--muted)} .out .h{color:var(--text); font-weight:700} .out a{color:var(--cyan); text-decoration:none; border-bottom:1px dotted var(--cyan)}
+  .out a:hover{color:#7defff} .out .ac{color:var(--accent)} .out .cy{color:var(--cyan)} .out .gn{color:var(--green)} .out .vi{color:var(--violet)} .out .am{color:var(--amber)} .out .dim{color:var(--faint)}
+  .err{color:#ff8da6}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; padding:12px 2px 4px}
+  .chip{font-size:12.5px; color:var(--muted); border:1px solid var(--line-2); background:transparent; border-radius:20px; padding:5px 12px; cursor:pointer; font-family:var(--mono); transition:.15s}
+  .chip:hover{color:var(--text); border-color:var(--accent)}
+  .inputline{display:flex; align-items:center; gap:9px; padding:10px 2px 4px}
+  .inputline .pr{color:var(--accent); white-space:nowrap}
+  #cmd{flex:1; background:transparent; border:0; outline:none; color:var(--text); font-family:var(--mono); font-size:14.5px; caret-color:var(--cyan)}
+  .reveal{animation:fade .22s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.reveal{animation:none}}
+  @media(max-width:560px){ body{font-size:13.5px} .shell{padding:10px} }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <div class="bar">
+      <span class="dot dr"></span><span class="dot dy"></span><span class="dot dg"></span>
+      <span class="ttl">visitor@walterzoff: ~/terminal</span>
+      <a class="home" href="../">← back to site</a>
+    </div>
+    <div class="screen" id="screen" role="log" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <div class="inputline">
+      <span class="pr">visitor@walterzoff:~$</span>
+      <input id="cmd" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="terminal input" />
+    </div>
+  </div>
+
+<script>
+const LINKS={email:"walter1zoff@gmail.com", linkedin:"https://www.linkedin.com/in/walterzoff", github:"https://github.com/walterzoff"};
+const A=(href,txt)=>`<a href="${href}" target="_blank" rel="noopener">${txt}</a>`;
+
+/* ---------- knowledge base (retrieval) ---------- */
+const KB=[
+ {k:["about","who","whoami","bio","walter","yourself","background"],
+  a:`<span class="h">Walter Zoff — Data &amp; AI Consultant</span>, based in Milan.
+Automation &amp; Control engineer (MSc, Politecnico di Milano, 110/110) turned data &amp; AI practitioner.
+I build LLM-powered tools and BI platforms — and I like taking models from a notebook to something that actually <span class="ac">ships</span>.`},
+ {k:["ai","genai","llm","agents","agent","mcp","rag","generative","prompt"],
+  a:`<span class="h">Applied AI is my focus.</span>
+<span class="ac">›</span> LLM orchestration &amp; agents (MCP, function-calling)
+<span class="ac">›</span> RAG systems &amp; prompt engineering
+<span class="ac">›</span> grounded in real data (BigQuery, SQL) and ML research (PyTorch)
+Ask about <span class="cy">'orchestrator'</span> or <span class="cy">'change impact'</span> for the AI projects.`},
+ {k:["projects","project","work","portfolio","built","made"],
+  a:`<span class="h">Selected work</span> — ask about any of these:
+<span class="vi">›</span> <span class="cy">orchestrator</span>   LLM tool migrating MicroStrategy → Qlik (MCP + Qlik APIs)
+<span class="vi">›</span> <span class="cy">change impact</span> RAG app — effort estimation + data lineage
+<span class="vi">›</span> <span class="cy">reporting</span>     Looker/BigQuery BI platform (banking)
+<span class="vi">›</span> <span class="cy">thesis</span>        neural-network process optimization (2 papers)`},
+ {k:["orchestrator","migration","mstr","microstrategy","qlik","bi migration"],
+  a:`<span class="h">LLM Orchestrator for BI Migration</span> <span class="dim">· 2026</span>
+End-to-end validated system that migrates MicroStrategy dashboards to Qlik Sense automatically — orchestrating LLM calls against a Qlik <span class="ac">MCP</span> server and the Qlik REST APIs. I built the MSTR HTML parsing layer and the prompt logic driving dashboard reconstruction, cutting manual migration effort substantially.
+<span class="dim">stack:</span> Python · LLM APIs · MCP · Qlik APIs · HTML parsing`},
+ {k:["change","impact","analyzer","lineage","hackathon","react","node"],
+  a:`<span class="h">Change Impact Analyzer</span> <span class="dim">· Reply internal hackathon, 2026</span>
+Full-stack <span class="ac">RAG</span> app that estimates change-request effort and analyzes data lineage across SQL databases — semantic retrieval + LLM reasoning. I engineered the prompt-construction layer and the React/Node.js frontend.
+<span class="dim">stack:</span> RAG · Transformers · LLM APIs · React · Node.js · SQLite`},
+ {k:["reporting","looker","lookml","bi","dashboard","dashboards","bigquery","risk","banking","bank"],
+  a:`<span class="h">Directional Risk Reporting Platform</span> <span class="dim">· Looker / BigQuery</span>
+For a major banking group: the semantic model + interactive dashboards across two delivery waves — drill-downs, time-snapshot filtering, brand-styled charts and an IT/EN bilingual layer.
+<span class="dim">stack:</span> LookML · BigQuery · SQL · data modeling`},
+ {k:["thesis","neural","network","mlp","optimization","thermoforming","master","surrogate","pytorch"],
+  a:`<span class="h">Neural-Network Process Optimization</span> <span class="dim">· MSc thesis, 2025</span>
+Trained an MLP to simulate an industrial thermoforming process, then used it as a <span class="ac">surrogate</span> inside an optimization loop (gradient-based vs genetic algorithms) to improve energy efficiency. Led to two co-authored papers.
+<span class="dim">stack:</span> Python · PyTorch · optimization`},
+ {k:["skills","stack","tech","technologies","tools","languages-tech"],
+  a:`<span class="h">Stack</span>
+<span class="vi">GenAI</span>   LLM APIs · RAG · prompt engineering · transformers · LLM orchestration · MCP
+<span class="cy">ML</span>      PyTorch · TensorFlow · scikit-learn · NumPy · Pandas · optimization
+<span class="ac">Data/BI</span> BigQuery · Databricks · GCP · Looker/LookML · Qlik · MicroStrategy · ETL
+<span class="gn">Lang</span>    Python · SQL · C/C++ · MATLAB · JavaScript
+<span class="am">Web</span>     React · Node.js · SQLite · Git · FastAPI · Excel/VBA`},
+ {k:["experience","jobs","reply","simeco","career","employment"],
+  a:`<span class="h">Experience</span>
+<span class="ac">›</span> <span class="h">Target Reply</span> — AI initiatives <span class="dim">(Nov 2025 – present)</span>
+   LLM orchestrator (MSTR→Qlik via MCP) + RAG Change Impact Analyzer.
+<span class="ac">›</span> <span class="h">Target Reply</span> — Junior Consultant, Data &amp; Analytics <span class="dim">(Nov 2025 – present)</span>
+   Looker/LookML · BigQuery · Python · Databricks (banking client).
+<span class="ac">›</span> <span class="h">SIMECO</span> — Instrumentation &amp; Automation Engineer <span class="dim">(Jun – Nov 2025)</span>
+   P&amp;IDs, automation typicals, FAT/SAT.`},
+ {k:["education","edu","degree","university","politecnico","polimi","study","studied","certifications","certs"],
+  a:`<span class="h">Education</span> — Politecnico di Milano
+<span class="ac">›</span> MSc Automation &amp; Control Engineering — <span class="gn">110/110</span> <span class="dim">(2022–2025)</span>
+<span class="ac">›</span> BSc Automation Engineering — <span class="gn">107/110</span> <span class="dim">(2019–2022)</span>
+<span class="dim">certs:</span> Google Looker Skills · MATLAB/Simulink · Case-interview (PoliMi)`},
+ {k:["research","papers","paper","publications","publication","ieee","ifac","published"],
+  a:`<span class="h">Research</span> — data-driven modeling &amp; control
+<span class="ac">›</span> "Data-Driven Control of Thermoforming Machines" — <span class="cy">IEEE TCST</span>, 2026
+<span class="ac">›</span> "Data-Driven Modeling and Optimization of the Thermoforming Heating Phase" — <span class="cy">IFAC-PapersOnLine</span>, 2025`},
+ {k:["contact","email","reach","hire","hiring","available","availability","mail","get in touch"],
+  a:`<span class="h">Let's talk</span> — open to applied-AI &amp; data roles.
+<span class="ac">email</span>    ${A("mailto:"+LINKS.email,LINKS.email)}
+<span class="ac">linkedin</span> ${A(LINKS.linkedin,"/in/walterzoff")}
+<span class="ac">github</span>   ${A(LINKS.github,"github.com/walterzoff")}`},
+ {k:["links","social","linkedin","github"],
+  a:`${A(LINKS.linkedin,"linkedin.com/in/walterzoff")}
+${A(LINKS.github,"github.com/walterzoff")}
+${A("mailto:"+LINKS.email,LINKS.email)}`},
+ {k:["spoken","english","italian","spanish","language"],
+  a:`Languages: Italian (native) · English (C1) · Spanish (A2)`},
+ {k:["location","where","milan","based","remote"],
+  a:`Based in <span class="h">Milan, Italy</span> — open to on-site / hybrid / remote.`},
+ {k:["python","sql","databricks","gcp","cloud"],
+  a:`Yes — daily. Python &amp; SQL are my core; plus BigQuery, Databricks and GCP on the data side. Type <span class="cy">skills</span> for the full stack.`}
+];
+
+const COMMANDS={
+  help:()=>`<span class="h">Commands</span>
+  <span class="cy">about</span>       who I am            <span class="cy">projects</span>   selected work
+  <span class="cy">experience</span>  roles               <span class="cy">skills</span>     the stack
+  <span class="cy">research</span>    publications        <span class="cy">education</span>  degrees
+  <span class="cy">contact</span>     how to reach me     <span class="cy">links</span>      social
+  <span class="cy">clear</span>       wipe the screen     <span class="cy">gui</span>        back to the visual site
+<span class="dim">…or just ask in plain English, e.g. "what AI projects have you built?"</span>`,
+  clear:()=>{document.getElementById("screen").innerHTML=""; return null;},
+  cls:()=>COMMANDS.clear(),
+  gui:()=>{location.href="../"; return `opening visual site…`;},
+  home:()=>COMMANDS.gui(), exit:()=>COMMANDS.gui(),
+  ls:()=>`about  projects  experience  skills  research  education  contact`,
+  sudo:()=>`<span class="err">Permission denied.</span> Nice try 😏`,
+  coffee:()=>`     ( (\n      ) )\n   ........\n   |      |]   brewing… ☕\n   \\      /\n    \`----'`,
+  whoami:()=>byKey("about")
+};
+const ALIAS={projects:"projects",project:"projects",work:"projects",about:"about",bio:"about",
+  experience:"experience",jobs:"experience",skills:"skills",stack:"skills",research:"research",
+  papers:"papers",publications:"research",education:"education",edu:"education",contact:"contact",
+  email:"contact",hire:"contact",links:"links",social:"links"};
+
+/* ---------- retrieval ---------- */
+function tokenize(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g," ").split(/\s+/).filter(w=>w.length>1);}
+function byKey(key){const e=KB.find(x=>x.k.includes(key)); return e?e.a:null;}
+function retrieve(q){
+  const toks=tokenize(q); let best=null, bestScore=0;
+  for(const e of KB){
+    let s=0; const blob=(e.k.join(" ")+" "+e.a.replace(/<[^>]+>/g," ")).toLowerCase();
+    for(const t of toks){
+      if(e.k.includes(t)) s+=4;
+      else if(e.k.some(kw=>kw.includes(t)||t.includes(kw))) s+=2;
+      else if(blob.includes(t)) s+=1;
+    }
+    if(s>bestScore){bestScore=s; best=e;}
+  }
+  if(best && bestScore>=2) return best.a;
+  return `<span class="err">I don't have that on file.</span> Try <span class="cy">help</span>, or ask about projects, skills, experience, research or contact.`;
+}
+
+/* ---------- terminal engine ---------- */
+const screen=document.getElementById("screen"), input=document.getElementById("cmd");
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const hist=[]; let hi=-1;
+function print(html,cls){const d=document.createElement("div"); d.className="row reveal "+(cls||""); d.innerHTML=html; screen.appendChild(d); screen.scrollTop=screen.scrollHeight; return d;}
+function echo(cmd){print(`<span class="pr">visitor@walterzoff:~$</span> ${cmd.replace(/</g,"&lt;")}`,"cmd-echo");}
+
+function run(raw){
+  const cmd=raw.trim(); if(!cmd) return;
+  echo(cmd); hist.unshift(cmd); hi=-1;
+  const word=cmd.toLowerCase().split(/\s+/)[0];
+  let res;
+  if(COMMANDS[word]) res=COMMANDS[word]();
+  else if(ALIAS[word]) res=byKey(ALIAS[word]) || retrieve(cmd);
+  else res=retrieve(cmd);
+  if(res!==null) print(res,"out");
+}
+
+const SUGGEST=["help","projects","skills","what AI have you built?","research","contact"];
+function buildChips(){const c=document.getElementById("chips");
+  SUGGEST.forEach(s=>{const b=document.createElement("button"); b.className="chip"; b.textContent=s;
+    b.onclick=()=>{input.value=s; submit();}; c.appendChild(b);});}
+function submit(){const v=input.value; input.value=""; run(v);}
+
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){submit();}
+  else if(e.key==="ArrowUp"){if(hi<hist.length-1){hi++; input.value=hist[hi]; e.preventDefault();}}
+  else if(e.key==="ArrowDown"){if(hi>0){hi--; input.value=hist[hi];} else {hi=-1; input.value="";}}
+});
+document.addEventListener("click",e=>{if(!e.target.closest("a")&&!e.target.closest(".chip")) input.focus();});
+
+/* ---------- boot ---------- */
+const boot=[
+ `<span class="dim">walterzoff portfolio terminal · v1.0</span>`,
+ `<span class="dim">loading knowledge base…</span> <span class="gn">ok</span> <span class="dim">(${KB.length} chunks · client-side retrieval, no server)</span>`,
+ `Hi — I'm Walter's terminal. Type <span class="cy">help</span>, or just <span class="ac">ask me anything</span> about him.`
+];
+function bootSeq(i){
+  if(i>=boot.length){buildChips(); input.focus(); return;}
+  print(boot[i],"out");
+  setTimeout(()=>bootSeq(i+1), reduce?0:230);
+}
+bootSeq(0);
+</script>
+</body>
+</html>
