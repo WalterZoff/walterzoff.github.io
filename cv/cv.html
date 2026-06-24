@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Walter Zoff — CV</title>
+<style>
+  @page { size: A4; margin: 12mm 14mm; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Helvetica Neue", Arial, sans-serif; font-size:10.3pt; line-height:1.4; color:#1b1b1b; }
+  a { color:#14274e; text-decoration:none; }
+  .name { font-size:21pt; font-weight:700; color:#14274e; letter-spacing:.2px; }
+  .role { font-size:10.5pt; color:#3a3a3a; margin-top:2px; font-weight:600; }
+  .contact { font-size:9pt; color:#444; margin-top:6px; }
+  .contact span { white-space:nowrap; }
+  .sep { color:#aaa; margin:0 7px; }
+  h2 { font-size:10pt; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#14274e;
+       border-bottom:1.2px solid #c9d0db; padding-bottom:2px; margin:13px 0 7px; }
+  .sum { margin-top:9px; color:#262626; }
+  .item { margin-bottom:9px; }
+  .item:last-child { margin-bottom:0; }
+  .il1 { display:flex; justify-content:space-between; gap:12px; }
+  .title { font-weight:700; color:#1a1a1a; }
+  .where { color:#3a3a3a; font-style:italic; font-size:9.6pt; }
+  .date { color:#555; font-size:9.2pt; white-space:nowrap; }
+  ul { list-style:none; margin:3px 0 0; }
+  li { position:relative; padding-left:12px; margin:2.5px 0; color:#2a2a2a; }
+  li::before { content:"•"; position:absolute; left:0; color:#14274e; }
+  .skills div { margin:3px 0; }
+  .skills b { color:#1a1a1a; display:inline-block; min-width:118px; }
+  .twocol { display:flex; gap:26px; }
+  .twocol > div { flex:1; }
+  .compact li { margin:2px 0; }
+</style>
+</head>
+<body>
+  <div class="name">Walter Zoff</div>
+  <div class="role">Automation, Data &amp; AI · AI Engineer / Forward Deployed Engineer</div>
+  <div class="contact">
+    <span>Milan, Italy</span><span class="sep">|</span>
+    <span>walter1zoff@gmail.com</span><span class="sep">|</span>
+    <span>+39 338 864 9369</span><span class="sep">|</span>
+    <span><a href="https://www.linkedin.com/in/walterzoff">linkedin.com/in/walterzoff</a></span><span class="sep">|</span>
+    <span><a href="https://github.com/walterzoff">github.com/walterzoff</a></span><span class="sep">|</span>
+    <span><a href="https://walterzoff.github.io">walterzoff.github.io</a></span>
+  </div>
+
+  <p class="sum">Automation &amp; Control engineer (MSc, Politecnico di Milano, 110/110) working across data and AI. I build BI platforms and LLM-powered tools (RAG, MCP), with research roots in data-driven modeling and control. Comfortable taking a model from a notebook to a reliable system that ships. Targeting AI Engineer / Forward Deployed Engineer roles.</p>
+
+  <h2>Experience</h2>
+  <div class="item">
+    <div class="il1"><span class="title">Junior Consultant — Data &amp; AI</span><span class="date">Nov 2025 – Present</span></div>
+    <div class="where">Target Reply (Reply Group) · Milan</div>
+    <ul>
+      <li>Designed and built Looker / LookML dashboards and a BigQuery analytical layer (SQL data modeling and query optimization) for a leading Italian banking group.</li>
+      <li>Manipulated and validated data in Python (Pandas); supported ETL and data orchestration across GCP and Databricks.</li>
+      <li>Internal AI initiative: built an LLM orchestrator that automates MicroStrategy → Qlik dashboard migration via a Qlik MCP server and the Qlik REST APIs, including parsing of MicroStrategy HTML exports.</li>
+      <li>Reply hackathon: built a RAG-based Change Impact Analyzer (transformers + LLM APIs, prompt engineering) for change-request effort estimation and data lineage, with a React / Node.js frontend.</li>
+      <li>Led requirements gathering (metrics, KPIs, dashboard design) with stakeholders.</li>
+    </ul>
+  </div>
+  <div class="item">
+    <div class="il1"><span class="title">Instrumentation &amp; Automation Engineer</span><span class="date">Jun – Nov 2025</span></div>
+    <div class="where">SIMECO S.p.A. · Milan</div>
+    <ul>
+      <li>Mechanized P&amp;IDs and defined automation typicals (motors, control / on-off valves, safety devices) for industrial plant projects.</li>
+      <li>Prepared instrument and I/O lists and technical specifications; supported procurement, FAT/SAT and field activities.</li>
+    </ul>
+  </div>
+
+  <h2>Education</h2>
+  <div class="item">
+    <div class="il1"><span class="title">M.Sc. Automation &amp; Control Engineering — 110/110</span><span class="date">2022 – 2025</span></div>
+    <div class="where">Politecnico di Milano</div>
+    <ul><li>Thesis: trained a neural network (MLP) as a surrogate model of an industrial thermoforming process, used in an optimization loop to improve energy efficiency. Coursework: machine learning, optimization, MPC, system identification.</li></ul>
+  </div>
+  <div class="item">
+    <div class="il1"><span class="title">B.Sc. Automation Engineering — 107/110</span><span class="date">2019 – 2022</span></div>
+    <div class="where">Politecnico di Milano</div>
+  </div>
+
+  <h2>Publications</h2>
+  <ul class="compact">
+    <li>W. Zoff et al., "Data-Driven Control of Thermoforming Machines," <i>IEEE Transactions on Control Systems Technology</i>, 2026.</li>
+    <li>W. Zoff et al., "Data-Driven Modeling and Optimization of the Thermoforming Heating Phase," <i>IFAC-PapersOnLine</i>, 2025.</li>
+  </ul>
+
+  <h2>Selected Projects</h2>
+  <ul class="compact">
+    <li><b>LLM Orchestrator for BI Migration</b> (2026) — MicroStrategy → Qlik via LLM orchestration. Python, LLM APIs, MCP, Qlik APIs, HTML parsing.</li>
+    <li><b>Change Impact Analyzer</b> (2026) — full-stack RAG app for change-request effort and data lineage. RAG, transformers, LLM APIs, React, Node.js, SQLite.</li>
+    <li><b>Neural-Network Process Optimization</b> (M.Sc. thesis, 2025) — MLP surrogate in an optimization loop. Python, PyTorch, optimization.</li>
+  </ul>
+
+  <h2>Skills</h2>
+  <div class="skills">
+    <div><b>Languages</b> Python, SQL, C/C++, MATLAB, JavaScript</div>
+    <div><b>Generative AI</b> LLM APIs, RAG, prompt engineering, transformers, LLM orchestration, MCP</div>
+    <div><b>Machine Learning</b> PyTorch, TensorFlow, scikit-learn, NumPy, Pandas, optimization</div>
+    <div><b>Data &amp; BI</b> BigQuery, Databricks, GCP, Looker / LookML, Qlik Sense, MicroStrategy, ETL, data modeling</div>
+    <div><b>Control &amp; Automation</b> control systems, MATLAB / Simulink, MPC, system identification, instrumentation, P&amp;ID</div>
+    <div><b>Web &amp; Tools</b> React, Node.js, SQLite, Git, FastAPI, Excel / VBA</div>
+  </div>
+
+  <h2>Certifications &amp; Languages</h2>
+  <div class="twocol">
+    <div>
+      <ul class="compact">
+        <li>Google — Looker Skills</li>
+        <li>SAS Hackathon Boot Camp (2026)</li>
+        <li>MATLAB / Simulink for Control Systems (PoliMi)</li>
+      </ul>
+    </div>
+    <div>
+      <ul class="compact">
+        <li>Italian — native</li>
+        <li>English — C1</li>
+        <li>Spanish — A2</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
