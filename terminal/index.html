@@ -69,6 +69,9 @@
 
 <script>
 const LINKS={email:"walter1zoff@gmail.com", linkedin:"https://www.linkedin.com/in/walterzoff", github:"https://github.com/walterzoff"};
+// ↓ After deploying worker/ (see worker/README.md), paste the Worker URL here to enable the OpenAI chatbot.
+// Leave empty to keep the offline client-side retrieval.
+const API_URL = "";
 const A=(href,txt)=>`<a href="${href}" target="_blank" rel="noopener">${txt}</a>`;
 
 /* ---------- knowledge base (bilingual EN/IT keywords) ---------- */
@@ -222,21 +225,36 @@ function retrieve(q){
 const screen=document.getElementById("screen"), input=document.getElementById("cmd");
 const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
 const histArr=[]; let hi=-1;
-function print(html,cls){const d=document.createElement("div"); d.className="row reveal "+(cls||""); d.innerHTML=html; screen.appendChild(d); screen.scrollTop=screen.scrollHeight;}
+function print(html,cls){const d=document.createElement("div"); d.className="row reveal "+(cls||""); d.innerHTML=html; screen.appendChild(d); screen.scrollTop=screen.scrollHeight; return d;}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>').replace(/(^|\s)([\w.+-]+@[\w.-]+\.\w+)/g,'$1<a href="mailto:$2">$2</a>');}
 function echo(cmd){print(`<span class="pr">visitor@walterzoff:~$</span> ${cmd.replace(/</g,"&lt;")}`,"cmd-echo");}
 
-function run(raw){
+const convo=[];
+async function run(raw){
   const cmd=raw.trim(); if(!cmd) return;
   echo(cmd); histArr.unshift(cmd); hi=-1;
   const word=cmd.toLowerCase().split(/\s+/)[0];
-  let res;
-  if(COMMANDS[word]) res=COMMANDS[word]();
-  else { const it=intentOf(cmd);
-    if(it) res=INTENT[it]();
-    else if(ALIAS[word]) res=byKey(ALIAS[word]) || retrieve(cmd);
-    else res=retrieve(cmd);
+  // local commands (help/clear/gui…) — always offline & instant
+  if(COMMANDS[word]){ const r=COMMANDS[word](); if(r!==null) print(r,"out"); return; }
+  // greetings / thanks / bye — handled locally (free)
+  const it=intentOf(cmd);
+  if(it){ print(INTENT[it](),"out"); return; }
+  // a bare section word (projects, skills…) — instant local dump
+  if(ALIAS[word] && cmd.split(/\s+/).length===1){ print(byKey(ALIAS[word])||retrieve(cmd),"out"); return; }
+  // free-form question → OpenAI (if configured), else offline retrieval
+  if(API_URL){
+    const tip=print(`<span class="dim">…thinking</span>`,"out");
+    try{
+      convo.push({role:"user",content:cmd});
+      const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:convo.slice(-8)})});
+      const data=await r.json();
+      if(tip) tip.remove();
+      if(data && data.reply){ convo.push({role:"assistant",content:data.reply}); print(esc(data.reply),"out"); }
+      else print(retrieve(cmd),"out");
+    }catch(e){ if(tip) tip.remove(); print(retrieve(cmd),"out"); }
+    return;
   }
-  if(res!==null) print(res,"out");
+  print(byKey(ALIAS[word])||retrieve(cmd),"out");
 }
 
 const SUGGEST=["help","projects","skills","what AI have you built?","research","contact"];
@@ -254,9 +272,11 @@ document.addEventListener("click",e=>{if(!e.target.closest("a")&&!e.target.close
 
 /* ---------- boot ---------- */
 const boot=[
- `<span class="dim">walterzoff portfolio terminal · v1.1</span>`,
- `<span class="dim">loading knowledge base…</span> <span class="gn">ok</span> <span class="dim">(${KB.length} chunks · client-side retrieval, no server)</span>`,
- `Hi — I'm Walter's terminal. Type <span class="cy">help</span>, or just <span class="ac">ask me anything</span> <span class="dim">(English or Italian)</span>.`
+ `<span class="dim">walterzoff portfolio terminal · v1.2</span>`,
+ API_URL
+   ? `<span class="dim">connecting…</span> <span class="gn">ok</span> <span class="dim">(GPT-4o-mini · grounded in Walter's profile)</span>`
+   : `<span class="dim">loading knowledge base…</span> <span class="gn">ok</span> <span class="dim">(${KB.length} chunks · client-side retrieval, no server)</span>`,
+ `Hi! I'm Walter's terminal. Type <span class="cy">help</span>, or just <span class="ac">ask me anything</span> <span class="dim">(English or Italian)</span>.`
 ];
 function bootSeq(i){
   if(i>=boot.length){buildChips(); input.focus(); return;}
