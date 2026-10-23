@@ -5,7 +5,7 @@
 const PROFILE = `
 WALTER ZOFF — Automation, Data & AI. Based in Milan, Italy.
 Headline: Automation & Control engineer working across data and AI.
-Languages: Italian (native), English (C1), Spanish (A2).
+Languages: Italian (native), English (C1, IELTS), Spanish (A2).
 Open to: AI Engineer / Forward Deployed Engineer roles, international (on-site, hybrid, remote).
 
 EDUCATION (Politecnico di Milano):
@@ -14,14 +14,15 @@ EDUCATION (Politecnico di Milano):
 - Certs: Google Looker Skills; SAS Hackathon Boot Camp (2026); MATLAB/Simulink; Case-interview (PoliMi).
 
 EXPERIENCE:
-- Target Reply (Reply Group), Milan — AI initiatives (Nov 2025–present): designed an LLM orchestrator that automates MicroStrategy→Qlik dashboard migration (Qlik MCP server + Qlik REST APIs, parsing of MSTR HTML dumps); built a RAG-based Change Impact Analyzer at an internal hackathon (transformers + LLM APIs + prompt engineering for change-request effort estimation and data lineage, React/Node.js frontend).
-- Target Reply — Junior Consultant, Data & Analytics (Nov 2025–present): Looker/LookML dashboards and a BigQuery analytical layer (SQL modeling/optimization), Python (Pandas), ETL/orchestration across GCP and Databricks, for a major banking group. Requirements gathering with stakeholders.
-- SIMECO S.p.A., Milan — Instrumentation & Automation Engineer (Jun–Nov 2025): P&IDs, automation typicals (motors, valves, safety devices), instrument/I/O lists, FAT/SAT.
+- Target Reply (Reply Group), Milan — Consultant, Data & AI (Nov 2025–present).
+  - AI Engineering: co-founded and led the development of an LLM-based agentic platform for BI migration that automates moving BI dashboards across vendors (SAS, MicroStrategy → Qlik Sense, Power BI). Evolved from an LLM-agentic prototype into a tested, deterministic migration engine, complemented by AI agents, MCP integration and automated quality checks. Validated on real enterprise portfolios: 29 MicroStrategy dossiers (400+ visuals) fully processed and 70+ reports consolidated into shared Power BI semantic models.
+  - Data & Analytics for an enterprise banking client: BigQuery analytical layer (SQL modeling/optimization), Python (Pandas), ETL/orchestration across GCP and Databricks; Looker/LookML dashboards for KPI monitoring. Primary point of contact for the client's business owner and partner consultants: led requirements, demos, UAT and release communication. Trained colleagues on Looker and on internal AI tooling.
+- SIMECO S.p.A., Milan — Instrumentation & Automation Engineer (Jun–Nov 2025): developed P&IDs, automation typicals (motors, valves, safety devices), instrument/I/O lists, FAT/SAT.
 
 SELECTED PROJECTS:
-- LLM Orchestrator for BI Migration (2026): end-to-end validated MicroStrategy→Qlik migration via LLM orchestration over a Qlik MCP server + REST APIs; MSTR HTML parsing; cuts manual migration effort substantially. Stack: Python, LLM APIs, MCP, Qlik APIs, HTML parsing.
-- Change Impact Analyzer (Reply hackathon, 2026): full-stack RAG app estimating change-request effort and mapping data lineage across SQL databases. Stack: RAG, transformers, LLM APIs, React, Node.js, SQLite.
-- Directional Risk Reporting Platform (Looker/BigQuery): semantic model + interactive dashboards over two delivery waves, drill-downs, time-snapshot filtering, IT/EN bilingual layer, for a major banking group.
+- Agentic Platform for BI Migration (co-founder, 2026): see Experience. Stack: Python, LLM agents, MCP, Power BI (PBIP/TMDL), Qlik Sense.
+- Conversational AI & Automation (personal projects, 2026): conversational AI assistant over structured product-catalog data (retrieval + tool calling); prototype custom MCP server exposing domain tools to LLM clients; self-hosted n8n for workflow orchestration and business process automation (OAuth2, Google APIs, scraping pipelines); daily agent-driven development with Claude Code.
+- Directional Risk Reporting Platform (Looker/BigQuery): semantic model + interactive dashboards over two delivery waves, drill-downs, time-snapshot filtering, IT/EN bilingual layer, for an enterprise banking client.
 - MSc thesis (2025): trained an MLP to simulate an industrial thermoforming process, used as a surrogate in an optimization loop (gradient-based vs genetic algorithms) to improve energy efficiency. Led to two co-authored papers.
 
 RESEARCH (data-driven modeling & control):
@@ -29,12 +30,12 @@ RESEARCH (data-driven modeling & control):
 - "Data-Driven Modeling and Optimization of the Thermoforming Heating Phase", IFAC-PapersOnLine, 2025.
 
 SKILLS:
-- Generative AI: LLM APIs, RAG, prompt engineering, transformers, LLM orchestration, MCP.
+- Generative AI & LLM systems: agentic workflows and multi-agent orchestration, MCP, prompt and context engineering, guardrails and output validation, knowledge retrieval (RAG, LLM-maintained knowledge bases), LLM APIs (Anthropic, OpenAI), Claude Code, n8n.
 - Machine Learning: PyTorch, TensorFlow, scikit-learn, NumPy, Pandas, optimization.
-- Data & BI: BigQuery, Databricks, GCP, Looker/LookML, Qlik Sense, MicroStrategy, ETL, data modeling.
+- Data & BI: Power BI (PBIP, TMDL), Looker/LookML, Qlik Sense, SAS Visual Analytics, MicroStrategy, BigQuery, Databricks, GCP, ETL, data modeling.
 - Control & Automation: control systems, MATLAB/Simulink, Model Predictive Control, system identification, instrumentation, P&ID.
-- Languages: Python, SQL, C/C++, MATLAB, JavaScript.
-- Web & tools: React, Node.js, SQLite, Git, FastAPI, Excel/VBA.
+- Languages: Python, SQL, TypeScript/JavaScript, DAX, Bash, C/C++, MATLAB.
+- Engineering & tools: Git, GitHub Actions, Docker, pytest, REST APIs, React, Node.js, SQLite, Excel/VBA.
 
 CONTACT: email walter1zoff@gmail.com; LinkedIn linkedin.com/in/walterzoff; GitHub github.com/walterzoff.
 `.trim();

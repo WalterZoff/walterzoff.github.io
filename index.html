@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#0E0B1E" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Walter Zoff · Automation, Data &amp; AI" />
-<meta property="og:description" content="Automation &amp; Control engineer working across data and AI. I build BI platforms and LLM-powered tools (RAG, MCP)." />
+<meta property="og:description" content="Automation &amp; Control engineer working across data and AI. I build BI platforms and LLM-powered tools (agentic workflows, MCP)." />
 <meta property="og:url" content="https://walterzoff.github.io/" />
 <meta property="og:image" content="https://walterzoff.github.io/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -213,7 +213,7 @@
       <div class="about-grid">
         <div class="about">
           <p>I'm an <strong>Automation &amp; Control engineer</strong> working across <strong>data and AI</strong>. I like problems where a good model, some SQL, and a bit of automation quietly remove weeks of manual work.</p>
-          <p>At Reply I work as a Data &amp; AI Consultant: BI platforms and analytical layers (Looker, BigQuery, Python, Databricks) for enterprise clients, plus internal AI initiatives, an <strong>LLM orchestrator</strong> that migrates BI dashboards via MCP and a <strong>RAG</strong> app for change-impact analysis.</p>
+          <p>At Reply I work as a Data &amp; AI Consultant. I <strong>co-founded an LLM-based agentic platform for BI migration</strong> that moves dashboards across vendors (SAS, MicroStrategy → Qlik Sense, Power BI), validated on real enterprise portfolios. On the client side I build the analytical layer and Looker dashboards for an enterprise banking client, as the primary point of contact for the business owner.</p>
           <p>My roots are in control systems and data-driven modeling (MSc, 110/110), with two co-authored research papers. Across all of it the throughline is the same: take a model from a notebook to something reliable that ships.</p>
         </div>
         <div class="facts">
@@ -236,12 +236,12 @@
         <div class="tl-item">
           <div class="tl-when">Nov 2025 — Present</div>
           <div>
-            <div class="tl-role">AI Initiatives — Generative AI &amp; BI migration</div>
+            <div class="tl-role">AI Engineering — LLM-based agentic platform for BI migration</div>
             <div class="tl-org">Target Reply (Reply Group) · Milan</div>
             <ul class="tl-list">
-              <li>Designed an <strong>LLM orchestrator</strong> that automates MicroStrategy → Qlik dashboard migration, integrating a Qlik MCP server and the Qlik REST APIs (end-to-end validated).</li>
-              <li>Built the parsing layer for MicroStrategy HTML dumps to extract semantic and structural metadata.</li>
-              <li>Built a <strong>RAG-based Change Impact Analyzer</strong> (internal hackathon): transformers + LLM APIs with custom prompt engineering to estimate change-request effort and analyze data lineage — full React/Node.js stack.</li>
+              <li><strong>Co-founded</strong> and led the development of an LLM-based agentic platform that automates the migration of BI dashboards across vendors (SAS, MicroStrategy → Qlik Sense, <strong>Power BI</strong>), turning a largely manual rebuild into a guided, repeatable process.</li>
+              <li>Evolved it from an LLM-agentic prototype into a tested, deterministic migration engine, complemented by AI agents, <strong>MCP</strong> integration and automated quality checks.</li>
+              <li>Validated on real enterprise portfolios: 29 MicroStrategy dossiers (400+ visuals) fully processed and 70+ reports consolidated into shared Power BI semantic models.</li>
             </ul>
           </div>
         </div>
@@ -249,11 +249,12 @@
           <div class="tl-when">Nov 2025 — Present</div>
           <div>
             <div class="tl-role">Consultant — Data &amp; AI</div>
-            <div class="tl-org">Target Reply (Reply Group) · Milan</div>
+            <div class="tl-org">Target Reply (Reply Group) · Milan · enterprise banking client</div>
             <ul class="tl-list">
-              <li>Build BI &amp; analytics solutions in <strong>Looker / LookML</strong> on <strong>BigQuery</strong> (data modeling, explores, dashboards) for enterprise clients, supporting decisions and KPI monitoring.</li>
-              <li>Work in <strong>Python (Pandas)</strong> across GCP and Databricks; support ETL and orchestration.</li>
-              <li>Collaborate with data engineering teams on data pipelines, ingestion and analytical data models.</li>
+              <li>Build the analytical layer on <strong>BigQuery</strong> (GCP) through SQL data modeling and query optimization; data manipulation and validation in <strong>Python (Pandas)</strong>, supporting ETL / orchestration across GCP and Databricks.</li>
+              <li>Develop dashboards and reports in <strong>Looker / LookML</strong> for KPI monitoring across multiple business stakeholders in a regulated banking environment.</li>
+              <li>Primary point of contact for the client's business owner and partner consultants: led requirements, demos, UAT and release communication.</li>
+              <li>Trained colleagues on Looker and on internal AI tooling.</li>
             </ul>
           </div>
         </div>
@@ -263,7 +264,7 @@
             <div class="tl-role">Instrumentation &amp; Automation Engineer</div>
             <div class="tl-org">SIMECO S.p.A. · Milan</div>
             <ul class="tl-list">
-              <li>Mechanized P&amp;IDs and defined automation typicals (motors, control / on-off valves, safety devices) on industrial plant projects.</li>
+              <li>Developed P&amp;IDs and defined automation typicals (motors, control / on-off valves, safety devices) on industrial plant projects.</li>
               <li>Prepared instrument lists, I/O lists and technical specs; supported procurement, FAT/SAT and field activities.</li>
             </ul>
           </div>
@@ -281,25 +282,25 @@
         <article class="card">
           <div class="card-top">
             <div>
-              <h3>LLM Orchestrator for BI Migration</h3>
-              <div class="ctx">Python · LLM APIs · MCP · Qlik APIs — 2026</div>
+              <h3>Agentic Platform for BI Migration</h3>
+              <div class="ctx">Python · LLM agents · MCP · Power BI · Qlik Sense — 2026</div>
             </div>
-            <span class="role">Creator &amp; sole author</span>
+            <span class="role">Co-founder</span>
           </div>
-          <p class="desc">An end-to-end validated system that migrates MicroStrategy dashboards to Qlik Sense automatically, by orchestrating LLM calls against a Qlik MCP server and the Qlik REST APIs. I designed the MSTR HTML parsing layer and the prompt logic that drives dashboard reconstruction — cutting manual migration effort substantially.</p>
-          <div class="tags" data-color="violet" data-list="Python,LLM APIs,MCP,Qlik APIs,HTML parsing,Prompt engineering"></div>
+          <p class="desc">An LLM-based agentic platform that migrates BI dashboards across vendors (SAS, MicroStrategy → Qlik Sense, Power BI), turning a largely manual rebuild into a guided, repeatable process. It grew from an LLM-agentic prototype into a tested, deterministic migration engine, complemented by AI agents, MCP integration and automated quality checks. Validated on real enterprise portfolios: 29 MicroStrategy dossiers (400+ visuals) fully processed and 70+ reports consolidated into shared Power BI semantic models.</p>
+          <div class="tags" data-color="violet" data-list="Python,LLM agents,MCP,Power BI (PBIP / TMDL),Qlik Sense,Automated QA"></div>
         </article>
 
         <article class="card">
           <div class="card-top">
             <div>
-              <h3>Change Impact Analyzer</h3>
-              <div class="ctx">RAG · Transformers · React / Node.js — Reply internal hackathon, 2026</div>
+              <h3>Conversational AI &amp; Automation</h3>
+              <div class="ctx">Claude Code · MCP · n8n · LLM APIs — personal projects, 2026</div>
             </div>
-            <span class="role">Full-stack build</span>
+            <span class="role">Personal projects</span>
           </div>
-          <p class="desc">A full-stack RAG application that estimates change-request effort and analyzes data lineage across SQL databases, combining semantic retrieval with LLM-based reasoning. I engineered the prompt-construction layer and integrated a React / Node.js frontend with the retrieval and inference pipeline.</p>
-          <div class="tags" data-color="cyan" data-list="RAG,Transformers,LLM APIs,React,Node.js,SQLite"></div>
+          <p class="desc">A conversational AI assistant over structured product-catalog data (retrieval + tool calling) and a prototype custom MCP server exposing domain tools to LLM clients. Self-hosted n8n for workflow orchestration and business process automation (OAuth2 integrations, Google APIs, scraping pipelines); daily agent-driven development with Claude Code and Bash scripting.</p>
+          <div class="tags" data-color="cyan" data-list="Claude Code,MCP,n8n,LLM APIs,Tool calling,OAuth2"></div>
         </article>
 
         <article class="card">
@@ -383,7 +384,7 @@
           <div class="meta">2019 — 2022 · <span class="grade">107/110</span></div>
         </div>
       </div>
-      <div class="tags" data-color="amber" data-list="Google — Looker Skills,Case Interview (PoliMi),MATLAB/Simulink for Control (PoliMi)"></div>
+      <div class="tags" data-color="amber" data-list="SAS Hackathon Boot Camp (2026),Google — Looker Skills,Case Interview (PoliMi),MATLAB/Simulink for Control (PoliMi)"></div>
     </div>
   </section>
 
@@ -419,12 +420,12 @@ const LINKS = {
 };
 
 const STACK = {
-  violet: ["LLM APIs","RAG","Prompt engineering","Transformers","LLM orchestration","MCP"],
+  violet: ["Agentic workflows","Multi-agent orchestration","MCP","Prompt & context engineering","Guardrails & output validation","Knowledge retrieval (RAG, LLM-maintained KBs)","LLM APIs","Claude Code","n8n"],
   pink:   ["Control systems","MATLAB / Simulink","Model Predictive Control","System identification","Instrumentation","P&ID"],
   cyan:   ["PyTorch","TensorFlow","scikit-learn","NumPy","Pandas","Optimization"],
-  indigo: ["BigQuery","Databricks","GCP","Looker / LookML","Qlik Sense","MicroStrategy","ETL"],
-  green:  ["Python","SQL","C/C++","MATLAB","JavaScript"],
-  amber:  ["React","Node.js","SQLite","Git","FastAPI","Excel / VBA"]
+  indigo: ["Power BI (PBIP, TMDL)","Looker / LookML","Qlik Sense","SAS Visual Analytics","MicroStrategy","BigQuery","Databricks","GCP","ETL"],
+  green:  ["Python","SQL","TypeScript / JavaScript","DAX","Bash","C/C++","MATLAB"],
+  amber:  ["Git","GitHub Actions","Docker","pytest","REST APIs","React","Node.js","SQLite","Excel / VBA"]
 };
 const COLORVAR = {indigo:"--c-indigo",cyan:"--c-cyan",green:"--c-green",violet:"--c-violet",amber:"--c-amber",pink:"--c-pink"};
 
